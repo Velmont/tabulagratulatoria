@@ -1,3 +1,6 @@
+# encoding=utf-8
+from __future__ import unicode_literals
+
 import csv
 import os
 
@@ -17,7 +20,7 @@ class Command(BaseCommand):
         if not os.path.isfile(fn):
             raise CommandError("File not found ({0})".format(fn))
 
-        csv.register_dialect('tabs', delimiter='\t')
+        csv.register_dialect('tabs', delimiter=str('\t'))
         with open(fn) as fp:
             reader = csv.DictReader(fp, dialect='tabs')
             objects = []
