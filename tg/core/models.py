@@ -21,6 +21,8 @@ class Entry(models.Model):
     postnummer = models.ForeignKey('Postnummer', null=True)
     place = models.CharField(max_length=64, blank=True, default='')
 
+    notes = models.TextField(blank=True, default='')
+
     tags = TaggableManager()
 
     @property
