@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+
 from model_utils import Choices
 from model_utils.fields import StatusField
-from taggit.managers import TaggableManager
 
 
 class Entry(models.Model):
@@ -23,8 +23,6 @@ class Entry(models.Model):
 
     notes = models.TextField(blank=True, default='')
 
-    tags = TaggableManager()
-
     @property
     def printed_name(self):
         if self.shown_name:
@@ -38,7 +36,7 @@ class Entry(models.Model):
     class Meta:
         verbose_name_plural = 'entries'
 
-    def __unicode__(self):
+    def __str__(self):
         return "{s.printed_name} ({s.status})".format(s=self)
 
 
