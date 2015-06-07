@@ -29,7 +29,9 @@ class EntryAdmin(reversion.VersionAdmin):
                     'address', 'email', 'postnummer')
     list_filter = ('status', ('groups', filters.AdditiveSubtractiveFilter))
     save_on_top = True
-    search_fields = ('shown_name', 'first_name', 'last_name', 'place', 'email', 'address',)
+    search_fields = ('shown_name', 'first_name', 'last_name',
+                     'place', 'email', 'address',
+                     '=postnummer__postnr')
 
 
 @admin.register(Group)
