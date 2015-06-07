@@ -22,7 +22,7 @@ class Entry(models.Model):
     place = models.CharField(max_length=64, blank=True, default='')
 
     notes = models.TextField(blank=True, default='')
-    groups = models.ManyToManyField('Group')
+    groups = models.ManyToManyField('Group', blank=True)
 
     @property
     def printed_name(self):
