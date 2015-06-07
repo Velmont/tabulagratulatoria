@@ -22,6 +22,7 @@ class Entry(models.Model):
     place = models.CharField(max_length=64, blank=True, default='')
 
     notes = models.TextField(blank=True, default='')
+    groups = models.ManyToManyField('Group')
 
     @property
     def printed_name(self):
@@ -36,7 +37,7 @@ class Entry(models.Model):
     class Meta:
         verbose_name_plural = 'entries'
 
-    def __str__(self):
+    def __unicode__(self):
         return "{s.printed_name} ({s.status})".format(s=self)
 
 
@@ -56,3 +57,15 @@ class Postnummer(models.Model):
 
     def __unicode__(self):
         return "{0} {1}".format(self.postnr, self.poststad)
+
+
+class Group(models.Model):
+    name = models.SlugField()
+    category = models.SlugField()
+
+    @property
+    def slug(self):
+        return "{s.category}:{s.name}".format(s=self)
+
+    def __unicode__(self):
+        return self.slug
