@@ -1,0 +1,12 @@
+*.bak
+*~
+
+*.swp
+*.pyc
+*.sqlite
+*.sqlite3
+*.swo
+*.log
+
+*.json
+*.csv
