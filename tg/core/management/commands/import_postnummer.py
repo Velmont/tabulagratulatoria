@@ -34,7 +34,7 @@ def create_postnummer_from_dict(data):
     p = Postnummer(
         postnr=data['POSTNR'].strip().replace(' ', ''),
         poststad=data['POSTSTAD'],
-        bruksomrade=data['BRUKSOMRÅDE'],
+        bruksomrade=data['BRUKSOMRADE'],
         bydel=data['BYDEL'],
         kommnr=data['KOMMNR'],
         kommune=data['KOMMUNE'],

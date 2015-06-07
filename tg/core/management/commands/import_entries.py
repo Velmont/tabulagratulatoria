@@ -1,12 +1,13 @@
+from __future__ import unicode_literals
+
 import csv
 import os
+import re
 
-import pytz
-from django.utils.dateparse import parse_datetime
-from django.utils.timezone import make_aware
 from django.core.management.base import BaseCommand, CommandError
 
 from core.models import Entry
+from core.models import Postnummer
 
 
 class Command(BaseCommand):
@@ -28,8 +29,34 @@ class Command(BaseCommand):
 
 def create_entry_from_dict(data):
     p = Entry(
-        full_name=data['name'],
-        address=data.get('address'),
-        email=data.get('email'),
+        address=data.get('address').decode('utf8'),
+        email=data.get('email').decode('utf8'),
+        phone=data.get('tlf').decode('utf8'),
     )
+    last_address_line = p.address.split(',')[-1]
+    m = re.match('\W(\d{4})\W(.+)$', last_address_line)
+    if m:
+        try:
+            postnr = Postnummer.objects.get(postnr=m.group(1))
+            place = m.group(2)
+            if postnr.poststad.lower() == place.lower():
+                p.postnummer = postnr
+            else:
+                print("Expected place {}, got {} for {}."
+                      .format(postnr.poststad, place, p.address))
+        except Postnummer.DoesNotExist:
+            print("Could not find postnr %s, for address %s" %
+                  (m.group(1), p.address))
+    if data['smth']:
+        p.phone += " / %s" % data['smth']
+    name = data['name'].decode('utf8')
+    if ',' in name:
+        try:
+            p.last_name, p.first_name = name.split(',')
+        except ValueError:
+            print("Couldn't split name %s" % name)
+            p.shown_name = name
+    else:
+        p.shown_name = name
+
     return p
