@@ -60,8 +60,8 @@ class Postnummer(models.Model):
 
 
 class Group(models.Model):
-    name = models.SlugField()
     category = models.SlugField()
+    name = models.SlugField()
 
     @property
     def slug(self):
