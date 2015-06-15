@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Legg til ny</h1>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+
+  <style>
+  </style>
+
+  <form class=entry action=. method=post>
+  <div class=row>
+    <div class="f f-status">
+      {{ form.status.errors }}
+      {{ form.status.label_tag }}
+      {{ form.status }}
+    </div>
+
+    <div class="f f-shown_name">
+      {{ form.shown_name.errors }}
+      <label for=id_shown_name>Shown name</label>
+      <input id="id_shown_name" maxlength="255" name="shown_name" type="text" style=width:100%>
+    </div>
+  </div>
+
+    <div class="row">
+    <div class="f f-first_name col s6">
+      {{ form.first_name.errors }}
+      {{ form.first_name.label_tag }}
+      {{ form.first_name }}
+    </div>
+
+    <div class="f f-last_name col s6">
+      {{ form.last_name.errors }}
+      {{ form.last_name.label_tag }}
+      {{ form.last_name }}
+    </div>
+    </div>
+
+    <div class="f f-email">
+      {{ form.email.errors }}
+      {{ form.email.label_tag }}
+      {{ form.email }}
+    </div>
+
+    <div class="f f-phone">
+      {{ form.phone.errors }}
+      {{ form.phone.label_tag }}
+      {{ form.phone }}
+    </div>
+
+    <div class="f f-address">
+      {{ form.address.errors }}
+      <label for=id_address>Address</label>
+      <input id="id_address" maxlength="255" name="address" type="text" style=width:100%>
+    </div>
+
+    <div class="f f-postnummer">
+      {{ form.postnummer.errors }}
+      {{ form.postnummer.label_tag }}
+      {{ form.postnummer }}
+    </div>
+
+    <div class="f f-place">
+      {{ form.place.errors }}
+      {{ form.place.label_tag }}
+      {{ form.place }}
+    </div>
+
+    <div class="f f-notes">
+      {{ form.notes.errors }}
+      {{ form.notes.label_tag }}
+      {{ form.notes }}
+    </div>
+
+    <div class="f f-groups">
+      {{ form.groups.errors }}
+      {{ form.groups.label_tag }}
+      {{ form.groups }}
+    </div>
+
+    <input type=submit value="Legg til">
+  </div>
+  </form>
+
+{% endblock %}

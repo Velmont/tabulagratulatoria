@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Tabla gratiale</h1>
+
+  <ul>
+    <li><a href="{% url 'admin:core_entry_changelist' %}">Admin</a>
+    <li><a href="{% url 'ui:adder' %}">Legg til nye (fungerer ikkje)</a>
+  </ul>
+{% endblock %}
