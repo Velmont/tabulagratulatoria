@@ -1,3 +1,4 @@
+import autocomplete_light
 import reversion
 from django.contrib import admin
 
@@ -8,6 +9,7 @@ from core.models import Group
 
 @admin.register(Entry)
 class EntryAdmin(reversion.VersionAdmin):
+    form = autocomplete_light.modelform_factory(Entry, fields='__all__')
     fieldsets = (
         (None, {
             'fields': (
