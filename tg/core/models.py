@@ -21,6 +21,9 @@ class Entry(models.Model):
     postnummer = models.ForeignKey('Postnummer', null=True)
     place = models.CharField(max_length=64, blank=True, default='')
 
+    want_tg = models.BooleanField(default=False)
+    num_issues = models.PositiveSmallIntegerField(default=False)
+
     notes = models.TextField(blank=True, default='')
     groups = models.ManyToManyField('Group', blank=True)
 
