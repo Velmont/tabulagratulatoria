@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from ui import urls as ui_urls
 
-admin.site.site_header = 'NOB2015-festskrift'
+admin.site.site_header = 'NO2014-festskrift'
 
 
 urlpatterns = [
