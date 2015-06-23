@@ -22,7 +22,7 @@ class Entry(models.Model):
     place = models.CharField(max_length=64, blank=True, default='')
 
     want_tg = models.BooleanField(default=False)
-    num_issues = models.PositiveSmallIntegerField(default=False)
+    num_issues = models.PositiveSmallIntegerField(default=0)
 
     notes = models.TextField(blank=True, default='')
     groups = models.ManyToManyField('Group', blank=True)
