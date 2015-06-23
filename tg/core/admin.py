@@ -1,6 +1,7 @@
 import autocomplete_light
 import reversion
 from django.contrib import admin
+from django.db import models
 
 from core import filters
 from core.models import Entry
@@ -10,7 +11,6 @@ from core.widgets import NumberWidget
 
 @admin.register(Entry)
 class EntryAdmin(reversion.VersionAdmin):
-    form = autocomplete_light.modelform_factory(Entry, fields='__all__')
     fieldsets = (
         (None, {
             'fields': (
@@ -22,13 +22,17 @@ class EntryAdmin(reversion.VersionAdmin):
                 'postnummer',
                 'place',
                 ('email', 'phone'),
-                ('want_tg', 'num_issues'),
+                ('num_issues', 'want_tg'),
                 'groups',
                 'notes',
             )
         }),
     )
     filter_horizontal = ('groups',)
+    form = autocomplete_light.modelform_factory(Entry, fields='__all__')
+    formfield_overrides = {
+        models.PositiveSmallIntegerField: {'widget': NumberWidget},
+    }
     list_display = ('__unicode__', 'first_name', 'last_name', 'status',
                     'want_tg', 'num_issues', 'address', 'email',
                     'postnummer')
