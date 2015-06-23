@@ -55,5 +55,4 @@ class EntryAdmin(reversion.VersionAdmin):
 
 @admin.register(Group)
 class GroupAdmin(reversion.VersionAdmin):
-    list_display = ('__unicode__', 'name', 'category')
-    list_filter = ('category',)
+    list_display = ('__unicode__',)

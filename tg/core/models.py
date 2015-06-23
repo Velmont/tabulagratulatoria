@@ -63,12 +63,7 @@ class Postnummer(models.Model):
 
 
 class Group(models.Model):
-    category = models.SlugField()
-    name = models.SlugField()
-
-    @property
-    def slug(self):
-        return "{s.category}:{s.name}".format(s=self)
+    slug = models.SlugField()
 
     def __unicode__(self):
         return self.slug
