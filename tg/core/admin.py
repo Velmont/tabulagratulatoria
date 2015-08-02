@@ -18,7 +18,7 @@ class EntryAdmin(reversion.VersionAdmin):
                 'shown_name',
                 'first_name',
                 'last_name',
-                'address',
+                ('address', 'full_address', 'full_pay_address'),
                 'postnummer',
                 'place',
                 ('email', 'phone'),
@@ -35,6 +35,7 @@ class EntryAdmin(reversion.VersionAdmin):
             )
         }),
     )
+    readonly_fields = ['full_address', 'full_pay_address']
     filter_horizontal = ('groups',)
     form = autocomplete_light.modelform_factory(Entry, fields='__all__')
     formfield_overrides = {

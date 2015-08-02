@@ -41,7 +41,27 @@ class Entry(models.Model):
 
     @property
     def contact_full_name(self):
-        return "{s.first_name} {s.last_name}".format(s=self)
+        return "{s.first_name} {s.last_name}".format(s=self).strip()
+
+    @property
+    def full_place(self):
+        if self.place:
+            return self.place
+        return unicode(self.postnummer) if self.postnummer else None
+
+    @property
+    def full_address(self):
+        adr_list = [self.contact_full_name]
+        if self.shown_name:
+            adr_list = [self.shown_name, u'c/o %s' % self.contact_full_name]
+        adr_list.extend([self.address, self.full_place])
+        return '\n'.join(filter(bool, adr_list))
+
+    @property
+    def full_pay_address(self):
+        postnr = unicode(self.pay_postnummer) if self.pay_postnummer else None
+        adr_list = [self.pay_name, self.pay_address, postnr]
+        return '\n'.join(filter(bool, adr_list))
 
     class Meta:
         verbose_name_plural = 'entries'
