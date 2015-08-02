@@ -27,6 +27,13 @@ class EntryAdmin(reversion.VersionAdmin):
                 'notes',
             )
         }),
+        ('Payment data', {
+            'fields': (
+                'pay_name',
+                'pay_address',
+                'pay_postnummer',
+            )
+        }),
     )
     filter_horizontal = ('groups',)
     form = autocomplete_light.modelform_factory(Entry, fields='__all__')

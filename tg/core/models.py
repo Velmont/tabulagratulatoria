@@ -17,12 +17,18 @@ class Entry(models.Model):
 
     email = models.EmailField(blank=True, default='')
     phone = models.CharField(max_length=32, blank=True, default='')
-    address = models.CharField(max_length=255, blank=True, default='')
-    postnummer = models.ForeignKey('Postnummer', null=True)
+    address = models.TextField(blank=True, default='')
+    postnummer = models.ForeignKey('Postnummer', blank=True, null=True)
     place = models.CharField(max_length=64, blank=True, default='')
 
     want_tg = models.BooleanField(default=False)
     num_issues = models.PositiveSmallIntegerField(default=0)
+
+    # Payment data
+    pay_name = models.CharField(max_length=255, blank=True, default='')
+    pay_address = models.TextField(blank=True, default='')
+    pay_postnummer = models.ForeignKey('Postnummer', blank=True, null=True,
+                                       related_name='+')
 
     notes = models.TextField(blank=True, default='')
     groups = models.ManyToManyField('Group', blank=True)
