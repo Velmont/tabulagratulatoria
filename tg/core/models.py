@@ -51,10 +51,13 @@ class Entry(models.Model):
 
     @property
     def full_address(self):
-        adr_list = [self.contact_full_name]
-        if self.shown_name:
-            adr_list = [self.shown_name, u'c/o %s' % self.contact_full_name]
-        adr_list.extend([self.address, self.full_place])
+        name = self.contact_full_name
+        if name and self.shown_name:
+            name = u'c/o ' + name
+        adr_list = [self.shown_name,
+                    name,
+                    self.address,
+                    self.full_place]
         return '\n'.join(filter(bool, adr_list))
 
     @property
