@@ -3,6 +3,7 @@ import reversion
 from django.contrib import admin
 from django.db import models
 
+from core import admin_actions
 from core import filters
 from core.models import Entry
 from core.models import Group
@@ -50,7 +51,13 @@ class EntryAdmin(reversion.VersionAdmin):
     save_on_top = True
     search_fields = ('shown_name', 'first_name', 'last_name',
                      'place', 'email', 'address',
-                     '=postnummer__postnr')
+                     '=postnummer__postnr',
+                     'pay_name', 'pay_address', '=pay_postnummer__postnr',
+                     'notes')
+    actions = [
+        admin_actions.simplified_csv_list,
+        admin_actions.csv_list,
+    ]
 
     def get_changelist_form(self, request, **kwargs):
         """
