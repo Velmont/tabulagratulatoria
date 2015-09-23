@@ -1,86 +1,143 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Legg til ny</h1>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css">
+  <h1>Festskrift til Norsk Ordbok</h1>
 
   <style>
+body, input, textarea {
+  font: 16pt 'Source Sans Pro';
+}
+#wrap {
+  width: 640px;
+  padding: 0 0 60px;
+}
+input {
+  padding: 2px 5px;
+}
+input[type=text], input[type=email] {
+  width: 100%;
+}
+.row {
+  display: flex;
+  align-items: baseline;
+  margin: 0 0 12px;
+}
+.boks {
+  flex-grow: 1;
+  margin: 10px;
+}
+.boks label {
+  display: block;
+  font-size: 12pt;
+}
+.f-address textarea {
+  height: 2em;
+}
+.f-alt_address {
+  opacity: 0.6;
+}
+.f-alt_address textarea {
+  height: 4em;
+}
+
+.f-num_issues input[type=number] {
+  width: 2em;
+}
+.f-submit {
+  text-align: right;
+}
+.f-submit input {
+  font-size: 16pt;
+  padding: 10px 20px;
+}
+
+.f-want_tg label, .f-num_issues label {
+  color: #666;
+  margin-left: 0.5em;
+}
+.f-want_tg :checked + label, .f-num_issues :checked + label {
+  color: #000;
+}
   </style>
 
   <form class=entry action=. method=post>
-  <div class=row>
-    <div class="f f-status">
-      {{ form.status.errors }}
-      {{ form.status.label_tag }}
-      {{ form.status }}
+    {% csrf_token %}
+    <div class="row f-want_tg">
+      {{ form.want_tg }}
+      <label for=id_want_tg>Eg vil gjerne skriva meg på Tabula
+        Gratulatoria (pris <code>XXX</code>kr)</label>
+      {{ form.want_tg.errors }}
     </div>
 
-    <div class="f f-shown_name">
-      {{ form.shown_name.errors }}
-      <label for=id_shown_name>Shown name</label>
-      <input id="id_shown_name" maxlength="255" name="shown_name" type="text" style=width:100%>
+    <div class="row f-num_issues">
+      {{ form.want_issue }}
+      <label for={{ form.want_issue.id_for_label }}>Eg vil gjerne tinga {{ form.num_issues }}
+        eksemplar av festskriftet (pris <code>XXX</code>kr stk)</label>
+      {{ form.want_tg.errors }}
     </div>
-  </div>
+
+    <div class="row f-name">
+      <div class=boks>
+        <label>Førenamn</label>
+        {{ form.first_name }}
+      </div>
+      <div class=boks>
+        <label>Etternamn</label>
+        {{ form.last_name }}
+      </div>
+    </div>
+
+    <div class="row f-shown_name">
+      <div class=boks>
+        <label>Namn i takkelista (TG)</label>
+        {{ form.shown_name }}
+      </div>
+    </div>
+
+    <div class="row f-address">
+      <div class=boks>
+        <label>Adresse</label>
+        {{ form.address }}
+      </div>
+      <div class=boks>
+        <label>Postnummer</label>
+        {{ form.place }}
+      </div>
+    </div>
 
     <div class="row">
-    <div class="f f-first_name col s6">
-      {{ form.first_name.errors }}
-      {{ form.first_name.label_tag }}
-      {{ form.first_name }}
+      <div class=boks>
+        <label>E-post</label>
+        {{ form.email }}
+      </div>
     </div>
 
-    <div class="f f-last_name col s6">
-      {{ form.last_name.errors }}
-      {{ form.last_name.label_tag }}
-      {{ form.last_name }}
-    </div>
-    </div>
-
-    <div class="f f-email">
-      {{ form.email.errors }}
-      {{ form.email.label_tag }}
-      {{ form.email }}
+    <div class="row f-alt_address">
+      <div class=boks>
+        <label>Anna (t.d. alternativ adresse / fakturaadresse / adresse i utlandet)</label>
+        {{ form.alt_address }}
+      </div>
     </div>
 
-    <div class="f f-phone">
-      {{ form.phone.errors }}
-      {{ form.phone.label_tag }}
-      {{ form.phone }}
+    <div class="row">
+      <small>
+        Ta kontakt med redaksjonen, dersom du lurer på noko:
+        <a href=mailto:norsk.ordbok@nynorsk.no>norsk.ordbok@nynorsk.no</a>
+      </small>
     </div>
 
-    <div class="f f-address">
-      {{ form.address.errors }}
-      <label for=id_address>Address</label>
-      <input id="id_address" maxlength="255" name="address" type="text" style=width:100%>
+    <div class="f-submit">
+      <input type=submit value="Legg til">
     </div>
-
-    <div class="f f-postnummer">
-      {{ form.postnummer.errors }}
-      {{ form.postnummer.label_tag }}
-      {{ form.postnummer }}
-    </div>
-
-    <div class="f f-place">
-      {{ form.place.errors }}
-      {{ form.place.label_tag }}
-      {{ form.place }}
-    </div>
-
-    <div class="f f-notes">
-      {{ form.notes.errors }}
-      {{ form.notes.label_tag }}
-      {{ form.notes }}
-    </div>
-
-    <div class="f f-groups">
-      {{ form.groups.errors }}
-      {{ form.groups.label_tag }}
-      {{ form.groups }}
-    </div>
-
-    <input type=submit value="Legg til">
-  </div>
   </form>
 
+<script>
+function update_shown_name() {
+  var name = id_first_name.value + ' ' + id_last_name.value;
+  id_shown_name.placeholder = name;
+}
+id_last_name.oninput = update_shown_name;
+id_first_name.oninput = update_shown_name;
+
+</script>
 {% endblock %}

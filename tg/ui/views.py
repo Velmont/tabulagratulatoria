@@ -8,7 +8,10 @@ def home(request):
 
 
 def adder(request):
-    form = EntryForm()
+    form = EntryForm(initial={
+        'want_tg': True,
+        'num_issues': 1,
+    })
     return render(request, 'ui/adder.html',
                   {
                       'form': form,
