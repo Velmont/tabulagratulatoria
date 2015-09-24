@@ -53,7 +53,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def similarity(a, b):
-        return 1-(abs(a-b)/max(a,b))
+        return 1-(float(abs(a-b))/max(a,b))
 
     def process(self, data):
         # Do some basic fixups
