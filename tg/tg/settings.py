@@ -27,6 +27,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ADMINS = (
+  ('Odin', 'odin.omdal@gmail.com'),
+)
+MANAGERS = (
+) + ADMINS
+
 
 # Application definition
 
@@ -93,7 +99,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'nn-no'
 
 TIME_ZONE = 'UTC'
 

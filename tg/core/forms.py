@@ -4,9 +4,9 @@ from .models import Entry
 
 
 class EntryForm(forms.ModelForm):
-    want_issue = forms.BooleanField(initial=False)
-    want_tg = forms.BooleanField(initial=True)
-    alt_address = forms.CharField(widget=forms.widgets.Textarea)
+    want_tg = forms.BooleanField(initial=True, required=False)
+    alt_address = forms.CharField(
+        required=False, widget=forms.widgets.Textarea)
 
     class Meta:
         model = Entry

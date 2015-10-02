@@ -1,20 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Festskrift til Norsk Ordbok</h1>
-
   <style>
-body, input, textarea {
-  font: 16pt 'Source Sans Pro';
+h1 {
+  margin-bottom: 1em;
 }
-#wrap {
-  width: 640px;
-  padding: 0 0 60px;
+h1 small {
+  color: #777;
+  display: block;
+  text-align: right;
+  font-weight: normal;
 }
+
 input {
   padding: 2px 5px;
 }
+input[type=checkbox] {
+  flex-shrink: 0;
+}
 input[type=text], input[type=email] {
+  box-sizing: border-box;
   width: 100%;
 }
 .row {
@@ -51,46 +56,83 @@ input[type=text], input[type=email] {
   padding: 10px 20px;
 }
 
-.f-want_tg label, .f-num_issues label {
+.f-want_tg label {
   color: #666;
   margin-left: 0.5em;
 }
-.f-want_tg :checked + label, .f-num_issues :checked + label {
+.f-want_tg :checked + label {
   color: #000;
+}
+
+.errorlist {
+  font-size: 10.5pt;
+  margin: 0;
+  padding: 4px;
+  background-color: rgb(255,190,190);
+  border-radius: 5px;
+}
+.errorlist li {
+  margin: 0;
+  display: block;
+}
+
+.f-shown_name {
+  max-height: 100px;
+  transition: 1s max-height;
+  overflow: hidden;
+}
+.f-shown_name.hidden {
+  max-height: 0;
+  transition: 0.4s max-height;
 }
   </style>
 
+  <h1>
+    Livet er æve, og evig er ordet
+    <small>Norsk Ordbok 1930&ndash;2015</small>
+  </h1>
+
   <form class=entry action=. method=post>
     {% csrf_token %}
-    <div class="row f-want_tg">
-      {{ form.want_tg }}
-      <label for=id_want_tg>Eg vil gjerne skriva meg på Tabula
-        Gratulatoria (pris <code>XXX</code>kr)</label>
-      {{ form.want_tg.errors }}
+    {{ form.non_field_errors }}
+    <div class="row f-num_issues">
+      <label for={{ form.num_issues.id_for_label }}>Eg/me vil gjerne tinge
+      <input type=number value="{{ form.num_issues.value }}"
+          min=1 max=99 id={{ form.num_issues.auto_id }}
+          name={{ form.num_issues.name }}>
+      {{ form.num_issues.errors }}
+        eksemplar av festskriftet (kr 299,00)</label>
     </div>
 
-    <div class="row f-num_issues">
-      {{ form.want_issue }}
-      <label for={{ form.want_issue.id_for_label }}>Eg vil gjerne tinga {{ form.num_issues }}
-        eksemplar av festskriftet (pris <code>XXX</code>kr stk)</label>
+    <div class="row f-want_tg">
+      {{ form.want_tg }}
       {{ form.want_tg.errors }}
+      <label for=id_want_tg>Eg/me ønskjer å stå på Tabula Gratulatoria 
+      (helsingslista)</label>
     </div>
 
     <div class="row f-name">
       <div class=boks>
         <label>Førenamn</label>
         {{ form.first_name }}
+        {{ form.first_name.errors }}
       </div>
       <div class=boks>
         <label>Etternamn</label>
         {{ form.last_name }}
+        {{ form.last_name.errors }}
       </div>
     </div>
 
     <div class="row f-shown_name">
       <div class=boks>
-        <label>Namn i takkelista (TG)</label>
+        <label>Namn i Tabula Gratulatoria
+        <small style="color: #555; margin-left: 0.5em; font-size: 10pt">
+          (t.d. «Ola Nordmann» eller
+          «Ola og Kari Nordmann»)</small>
+        </label>
         {{ form.shown_name }}
+        {{ form.shown_name.errors }}
       </div>
     </div>
 
@@ -98,10 +140,12 @@ input[type=text], input[type=email] {
       <div class=boks>
         <label>Adresse</label>
         {{ form.address }}
+        {{ form.address.errors }}
       </div>
       <div class=boks>
         <label>Postnummer</label>
         {{ form.place }}
+        {{ form.place.errors }}
       </div>
     </div>
 
@@ -109,6 +153,7 @@ input[type=text], input[type=email] {
       <div class=boks>
         <label>E-post</label>
         {{ form.email }}
+        {{ form.email.errors }}
       </div>
     </div>
 
@@ -116,6 +161,7 @@ input[type=text], input[type=email] {
       <div class=boks>
         <label>Anna (t.d. alternativ adresse / fakturaadresse / adresse i utlandet)</label>
         {{ form.alt_address }}
+        {{ form.alt_address.errors }}
       </div>
     </div>
 
@@ -138,6 +184,12 @@ function update_shown_name() {
 }
 id_last_name.oninput = update_shown_name;
 id_first_name.oninput = update_shown_name;
+
+function update_want_tg() {
+  document.querySelector('.f-shown_name').classList.toggle(
+      'hidden', !id_want_tg.checked);
+}
+id_want_tg.onchange = update_want_tg;
 
 </script>
 {% endblock %}
