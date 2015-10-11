@@ -15,9 +15,9 @@ import os
 
 from django.core.exceptions import ImproperlyConfigured
 
-
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))))
+REPO_DIR = os.path.dirname(BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production

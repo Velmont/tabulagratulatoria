@@ -10,3 +10,6 @@
 
 *.json
 *.csv
+
+# Project
+collected_staticfiles
