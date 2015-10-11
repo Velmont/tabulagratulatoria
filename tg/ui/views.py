@@ -17,7 +17,8 @@ def adder(request):
         form = EntryForm(request.POST)
         if form.is_valid():
             text = _make_email_body(form.cleaned_data, request.META)
-            mail_managers('TG', text)
+            mail_managers(form.cleaned_data.get('first_name', '(utan namn)'),
+                          text)
             return HttpResponseRedirect(reverse('ui:takk'))
     else:
         form = EntryForm(initial={
