@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['tg.s0.no']
 
 ADMINS = (
   ('Odin', 'odin.omdal@gmail.com'),
+  ('Norsk Ordbok', 'norsk.ordbok@nynorsk.no'),
 )
 MANAGERS = (
 ) + ADMINS

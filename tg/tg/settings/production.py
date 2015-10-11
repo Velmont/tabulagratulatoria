@@ -13,3 +13,7 @@ DATABASES = {
         'NAME': os.path.join(REPO_DIR, 'db', 'db.sqlite3'),
     }
 }
+
+SERVER_EMAIL = 'Tabula gratulatoria <noreply@tg.s0.no>'
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
+EMAIL_SUBJECT_PREFIX = '[TG] '
