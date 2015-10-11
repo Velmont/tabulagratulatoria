@@ -1,17 +1,15 @@
 from django import forms
 
-from .models import Entry
 
-
-class EntryForm(forms.ModelForm):
+class EntryForm(forms.Form):
     want_tg = forms.BooleanField(initial=True, required=False)
-    alt_address = forms.CharField(
-        required=False, widget=forms.widgets.Textarea)
-
-    class Meta:
-        model = Entry
-        fields = (
-            'want_tg', 'num_issues',
-            'shown_name', 'first_name', 'last_name',
-            'email', 'phone', 'address', 'postnummer', 'place',
-            )
+    num_issues = forms.IntegerField(required=True, min_value=1,
+                                    max_value=99)
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    shown_name = forms.CharField(required=False)
+    email = forms.EmailField(required=False)
+    full_address = forms.CharField(
+        required=True, widget=forms.widgets.Textarea)
+    other = forms.CharField(
+        required=False, widget=forms.widgets.Textarea())

@@ -3,10 +3,14 @@
 {% block content %}
   <style>
 h1 {
+  color: #C44C3C;
+  font-size: 2.3em;
   margin-bottom: 1em;
+  text-align: center;
 }
 h1 small {
-  color: #777;
+  color: #888;
+  font-size: 0.7em;
   display: block;
   text-align: right;
   font-weight: normal;
@@ -35,13 +39,13 @@ input[type=text], input[type=email] {
   display: block;
   font-size: 12pt;
 }
-.f-address textarea {
+.f-full_address textarea {
   height: 2em;
 }
-.f-alt_address {
+.f-other {
   opacity: 0.6;
 }
-.f-alt_address textarea {
+.f-other textarea {
   height: 4em;
 }
 
@@ -89,25 +93,23 @@ input[type=text], input[type=email] {
 
   <h1>
     Livet er æve, og evig er ordet
-    <small>Norsk Ordbok 1930&ndash;2015</small>
+    <small>Norsk Ordbok 1930&ndash;2016</small>
   </h1>
 
   <form class=entry action=. method=post>
     {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="row f-num_issues">
-      <label for={{ form.num_issues.id_for_label }}>Eg/me vil gjerne tinge
-      <input type=number value="{{ form.num_issues.value }}"
-          min=1 max=99 id={{ form.num_issues.auto_id }}
-          name={{ form.num_issues.name }}>
+      <label for={{ form.num_issues.id_for_label }}>Eg vil gjerne tinge
+      {{ form.num_issues}}
       {{ form.num_issues.errors }}
-        eksemplar av festskriftet (kr 299,00)</label>
+        eksemplar av festskriftet (kr 250,00 pluss porto)</label>
     </div>
 
     <div class="row f-want_tg">
       {{ form.want_tg }}
       {{ form.want_tg.errors }}
-      <label for=id_want_tg>Eg/me ønskjer å stå på Tabula Gratulatoria 
+      <label for=id_want_tg>Eg ynskjer å stå på Tabula gratulatoria 
       (helsingslista)</label>
     </div>
 
@@ -126,7 +128,7 @@ input[type=text], input[type=email] {
 
     <div class="row f-shown_name">
       <div class=boks>
-        <label>Namn i Tabula Gratulatoria
+        <label>Namn i Tabula gratulatoria
         <small style="color: #555; margin-left: 0.5em; font-size: 10pt">
           (t.d. «Ola Nordmann» eller
           «Ola og Kari Nordmann»)</small>
@@ -136,16 +138,11 @@ input[type=text], input[type=email] {
       </div>
     </div>
 
-    <div class="row f-address">
+    <div class="row f-full_address">
       <div class=boks>
-        <label>Adresse</label>
-        {{ form.address }}
-        {{ form.address.errors }}
-      </div>
-      <div class=boks>
-        <label>Postnummer</label>
-        {{ form.place }}
-        {{ form.place.errors }}
+        <label>Full adresse</label>
+        {{ form.full_address }}
+        {{ form.full_address.errors }}
       </div>
     </div>
 
@@ -157,18 +154,19 @@ input[type=text], input[type=email] {
       </div>
     </div>
 
-    <div class="row f-alt_address">
+    <div class="row f-other">
       <div class=boks>
         <label>Anna (t.d. alternativ adresse / fakturaadresse / adresse i utlandet)</label>
-        {{ form.alt_address }}
-        {{ form.alt_address.errors }}
+        {{ form.other }}
+        {{ form.other.errors }}
       </div>
     </div>
 
     <div class="row">
       <small>
-        Ta kontakt med redaksjonen, dersom du lurer på noko:
+        Ta kontakt med redaksjonen, dersom du lurer på noko:<br>
         <a href=mailto:norsk.ordbok@nynorsk.no>norsk.ordbok@nynorsk.no</a>
+        eller <a href=tel:+4722854380>(+47) 22 85 43 80</a>
       </small>
     </div>
 
