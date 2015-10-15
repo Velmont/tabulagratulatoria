@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 import textwrap
+import traceback
 
 from django.utils.html import strip_tags
 from django.core.mail import send_mail
@@ -12,7 +13,7 @@ from core.models import Entry
 
 
 def send_email_invitation():
-    users = Entry.objects.filter(postnummer__gt='0000').exclude(email='')[:1]
+    users = Entry.objects.filter(postnummer__gt='0000').exclude(email='')
 
     # define the email template we want to send
     subject_template = 'Festskrift til Norsk Ordbok'
@@ -51,11 +52,15 @@ def send_email_invitation():
         .replace('&nbsp', ''))
 
     # render and send the email
-    for user in users:
+    for number, user in enumerate(users):
+        print("[{n}/{t}]  {u}".format(n=number, t=len(users), u=user))
         ctx = Context({'user': user})
         subject = Template(subject_template).render(ctx)
         plain_body = Template(plaintext_template).render(ctx)
         html_body = Template(body_template).render(ctx)
 
-        send_mail(subject, plain_body, 'norsk.ordbok@nynorsk.no',
-                  [user.email], html_message=html_body)
+        try:
+            send_mail(subject, plain_body, 'norsk.ordbok@nynorsk.no',
+                      [user.email], html_message=html_body)
+        except:
+            traceback.print_exc(limit=1)
