@@ -17,7 +17,9 @@ def adder(request):
         form = EntryForm(request.POST)
         if form.is_valid():
             text = _make_email_body(form.cleaned_data, request.META)
-            mail_managers(form.cleaned_data.get('first_name', '(utan namn)'),
+            subject = u' '.join([form.cleaned_data.get('first_name', u''),
+                                 form.cleaned_data.get('last_name', u'')])
+            mail_managers(subject,
                           text.encode('utf-8'))
             return HttpResponseRedirect(reverse('ui:takk'))
     else:
