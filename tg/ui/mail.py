@@ -13,16 +13,16 @@ from core.models import Entry
 
 
 def send_email_invitation():
-    users = Entry.objects.filter(postnummer__gt='0000').exclude(email='')
+    users = Entry.objects.filter(want_tg=False, num_issues=0).exclude(email='')
 
     # define the email template we want to send
-    subject_template = 'Festskrift til Norsk Ordbok'
+    subject_template = '(Purring) Festskrift til Norsk Ordbok'
     body_template = textwrap.dedent('''
         <table style="width:100%"><td align=center style="text-align: center;"><table style="margin: 0 auto; text-align: left; width: 500px"><td>
         <p>Gode {{ user.printed_name }}!
         <p>&nbsp;
 
-        <h3 style="margin: 0">Subskripsjonsinnbyding</h3>
+        <h3 style="margin: 0">Purring på subskripsjonsinnbyding</h3>
         <h1 style="margin: 0">Livet er æve, og evig er ordet</h1>
         <h2 style="margin: 0">Norsk Ordbok 1930–2016</h2>
 
@@ -41,7 +41,7 @@ def send_email_invitation():
           <li>Fyll ut eit elektronisk <a href='http://tg.s0.no/'>påmeldingsskjema</a>.
         </ol>
 
-        <p><b>Tingingsfristen er i alle tilfelle 15. november 2015</b>.
+        <p><b>Ny tingingsfrist er <em style="color:red">5. desember 2015</em></b>.
         <p>Festskriftet skal etter planen liggje føre til lanseringa av band 12 den 9. mars 2016. Boka blir deretter send ut til tingarane med faktura vedlagd.
         </table>
         </table>
