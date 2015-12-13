@@ -42,8 +42,8 @@ class EntryAdmin(reversion.VersionAdmin):
     formfield_overrides = {
         models.PositiveSmallIntegerField: {'widget': NumberWidget},
     }
-    list_display = ('__unicode__', 'first_name', 'last_name', 'status',
-                    'want_tg', 'num_issues', 'address', 'email',
+    list_display = ('__unicode__', 'shown_name', 'first_name', 'last_name',
+                    'status', 'want_tg', 'num_issues', 'address', 'email',
                     'postnummer')
     list_filter = ('status', ('groups', filters.AdditiveSubtractiveFilter),
                    'want_tg', 'num_issues')
