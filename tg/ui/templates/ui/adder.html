@@ -3,7 +3,7 @@
 {% block content %}
   <style>
 h1 {
-  color: #C44C3C;
+  color: #3c53c4;
   font-size: 2.3em;
   margin-bottom: 1em;
   text-align: center;
@@ -92,18 +92,18 @@ textarea, input[type=text], input[type=email] {
   </style>
 
   <h1>
-    Livet er æve, og evig er ordet
-    <small>Norsk Ordbok 1930&ndash;2016</small>
+    Nynorsk litteraturhistorie
+    <small>Jan Inge Sørbø</small>
   </h1>
 
   <form class=entry action=. method=post>
     {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="row f-num_issues">
-      <label for={{ form.num_issues.id_for_label }}>Eg vil gjerne tinge
+      <label for={{ form.num_issues.id_for_label }}>Eg vil gjerne førehandstinge
       {{ form.num_issues}}
       {{ form.num_issues.errors }}
-        eksemplar av festskriftet (kr 250,00 pluss porto)</label>
+        eksemplar av boka til kr <ins>393,-</ins> (<small>utsalspris 449,-</small>) pluss porto</label>
     </div>
 
     <div class="row f-want_tg">
@@ -164,9 +164,16 @@ textarea, input[type=text], input[type=email] {
 
     <div class="row">
       <small>
-        Ta kontakt med redaksjonen, dersom du lurer på noko:<br>
-        <a href=mailto:norsk.ordbok@nynorsk.no>norsk.ordbok@nynorsk.no</a>
-        eller <a href=tel:+4722854380>(+47) 22 85 43 80</a>
+        Nynorsk litteraturhistorie vil bli lansert <code>&lt;månad?&gt;</code> 2018. Boka
+        blir deretter send ut til tingarane med faktura vedlagd.
+      </small>
+    </div>
+
+    <div class="row">
+      <small>
+        Ta kontakt med <a
+        href=mailto:heleneukarlsen+litteraturhistorie@gmail.com>Samlaget</a>,
+        dersom du lurar på noko.
       </small>
     </div>
 
