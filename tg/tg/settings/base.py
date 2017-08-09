@@ -28,9 +28,11 @@ SECRET_KEY = 'swbva+c87ru8p+_-o2&wsq7f-)9!p80+a-9817pmre2@+#!n^9'
 
 ALLOWED_HOSTS = ['tg.s0.no']
 
+EMAIL = 'heleneukarlsen+litteraturhistorie@gmail.com'
+
 ADMINS = (
   ('Odin', 'odin.omdal@gmail.com'),
-  ('Norsk Ordbok', 'norsk.ordbok@nynorsk.no'),
+  ('Nynorsk litteraturhistorie', EMAIL),
 )
 MANAGERS = (
 ) + ADMINS

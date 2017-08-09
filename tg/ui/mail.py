@@ -5,9 +5,10 @@ from __future__ import unicode_literals
 import textwrap
 import traceback
 
-from django.utils.html import strip_tags
+from django.conf import settings
 from django.core.mail import send_mail
 from django.template import Context, Template
+from django.utils.html import strip_tags
 
 from core.models import Entry
 
@@ -36,7 +37,7 @@ def send_email_invitation():
         <p>Redaksjonen vil invitere deg til å førehandstinge festskriftet, og samstundes få namnet ditt i Tabula gratulatoria. For å kunne stå på helsingslista, må du tinge minst eitt eksemplar av festskriftet til <b>kr 250,00</b> (pluss porto). Om du ynskjer det, kan du reservere deg mot å få namnet ditt i helsingslista, men likevel få tilsendt boka.
 
         <p>Du kan tinge skriftet på ein av desse måtane:<ol>
-          <li>Send svarmelding per e-post til norsk.ordbok@nynorsk.no eller ring +4722854380.
+          <li>Send svarmelding per e-post til {email} eller ring +4722854380.
           <li>Send svar per brev til Det Norske Samlaget, Pb 4672 Sofienberg, 0506 Oslo. Merk brevet med «Festskrift til Norsk Ordbok».
           <li>Fyll ut eit elektronisk <a href='http://tg.s0.no/'>påmeldingsskjema</a>.
         </ol>
@@ -45,7 +46,7 @@ def send_email_invitation():
         <p>Festskriftet skal etter planen liggje føre til lanseringa av band 12 den 9. mars 2016. Boka blir deretter send ut til tingarane med faktura vedlagd.
         </table>
         </table>
-    ''')
+    '''.format(email=settings.EMAIL))
     plaintext_template = (
         strip_tags(body_template)
         .replace('skjema', 'skjema <http://tg.s0.no>')
@@ -60,7 +61,8 @@ def send_email_invitation():
         html_body = Template(body_template).render(ctx)
 
         try:
-            send_mail(subject, plain_body, 'norsk.ordbok@nynorsk.no',
-                      [user.email], html_message=html_body)
+            send_mail(
+                subject, plain_body, settings.EMAIL,
+                [user.email], html_message=html_body)
         except:
             traceback.print_exc(limit=1)
