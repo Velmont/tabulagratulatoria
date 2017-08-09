@@ -183,6 +183,12 @@ textarea, input[type=text], input[type=email] {
   </form>
 
 <script>
+var $ = document.querySelector.bind(document);
+var id_first_name = $('#id_first_name');
+var id_last_name = $('#id_last_name');
+var id_shown_name = $('#id_shown_name');
+var id_want_tg = $('#id_want_tg');
+
 function update_shown_name() {
   var name = id_first_name.value + ' ' + id_last_name.value;
   id_shown_name.placeholder = name;
@@ -191,7 +197,7 @@ id_last_name.oninput = update_shown_name;
 id_first_name.oninput = update_shown_name;
 
 function update_want_tg() {
-  document.querySelector('.f-shown_name').classList.toggle(
+  $('.f-shown_name').classList.toggle(
       'hidden', !id_want_tg.checked);
 }
 id_want_tg.onchange = update_want_tg;
