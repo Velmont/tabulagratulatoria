@@ -2,10 +2,11 @@
 <meta charset=utf-8>
 <title>{{ page_title|default:"Nynorsk litteraturhistorie" }}</title>
 <meta name=viewport content="width=500">
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=.|Lato:light,normal,bold|Lato:light,normal,bold|Lato:light,normal,bold|Merriweather:light,normal,bold">
 
 <style>
 body, input, textarea {
-  font: 16pt 'Source Sans Pro';
+  font: 13pt Merriweather;
 }
 #wrap {
   margin: 0 auto;
@@ -20,3 +21,29 @@ body, input, textarea {
     Nothing here
   {% endblock %}
 </div>
+<style>
+/* Samlaget-fiks */
+h1, input[type=submit] {
+  font-family: Lato;
+  text-transform: uppercase;
+  color: #f9372b;
+}
+input {
+  font-family: Lato;
+}
+.f-full_address textarea {
+    height: 4em;
+}
+a {
+  color: #f9372b;
+}
+input[type=submit] {
+  background: #ee4035;
+  border-radius: 4px;
+  border: 0;
+  box-shadow: inset 0 -3px rgba(0,0,0,0.1);
+  color: white;
+  padding: 15px 50px;
+  text-align: center;
+}
+</style>
