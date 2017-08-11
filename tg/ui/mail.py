@@ -39,7 +39,7 @@ def send_email_invitation():
         <p>Du kan tinge skriftet på ein av desse måtane:<ol>
           <li>Send svarmelding per e-post til {email} eller ring +4722854380.
           <li>Send svar per brev til Det Norske Samlaget, Pb 4672 Sofienberg, 0506 Oslo. Merk brevet med «Festskrift til Norsk Ordbok».
-          <li>Fyll ut eit elektronisk <a href='http://tg.s0.no/'>påmeldingsskjema</a>.
+          <li>Fyll ut eit elektronisk <a href='https://tg.s0.no/'>påmeldingsskjema</a>.
         </ol>
 
         <p><b>Ny tingingsfrist er <em style="color:red">5. desember 2015</em></b>.
@@ -49,7 +49,7 @@ def send_email_invitation():
     '''.format(email=settings.EMAIL))
     plaintext_template = (
         strip_tags(body_template)
-        .replace('skjema', 'skjema <http://tg.s0.no>')
+        .replace('skjema', 'skjema <https://tg.s0.no>')
         .replace('&nbsp', ''))
 
     # render and send the email
