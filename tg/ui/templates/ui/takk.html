@@ -2,12 +2,29 @@
 
 {% block content %}
   <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    #wrap {
+      align-items: center;
+      display: flex;
+      font-size: 1.5em;
+      height: 100vh;
+      overflow: hidden;
+      padding: 0 40px;
+    }
+    p {
+      line-height: 1.8;
+    }
   </style>
 
-  <h1>Tusen takk for tinginga!</h1>
+  <div class=takk>
+  <h1>Tusen takk for bestillinga!</h1>
 
   <p>Namnet ditt/dykkar er no registrert i basen vår.
 
   <p><a href={% url 'ui:adder' %}>« Attende</a>
+  </div>
 
 {% endblock %}

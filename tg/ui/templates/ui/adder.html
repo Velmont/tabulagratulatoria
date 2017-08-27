@@ -92,26 +92,25 @@ textarea, input[type=text], input[type=email] {
 }
   </style>
 
-  <h1>
+  <h1 hidden>
     Nynorsk litteraturhistorie
     <small>Jan Inge Sørbø</small>
   </h1>
-  <img src="{% static 'nynorsk-litteraturhistorie.png'%}" class=bok>
 
   <form class=entry action=. method=post>
     {% csrf_token %}
     {{ form.non_field_errors }}
     <div class="row f-num_issues">
-      <label for={{ form.num_issues.id_for_label }}>Eg vil gjerne førehandstinge
+      <label for={{ form.num_issues.id_for_label }}>Eg vil gjerne førehandsbestille
       {{ form.num_issues}}
       {{ form.num_issues.errors }}
-        eksemplar av boka til kr <ins>393,-</ins> (<small>utsalspris 449,-</small>) pluss porto</label>
+        eksemplar av boka til kr <ins>393,-</ins> (<small>utsalspris 449,-</small>) inkludert porto.</label>
     </div>
 
     <div class="row f-want_tg">
       {{ form.want_tg }}
       {{ form.want_tg.errors }}
-      <label for=id_want_tg>Eg ynskjer å stå på Tabula gratulatoria 
+      <label for=id_want_tg>Eg ønskjer å stå på Tabula gratulatoria
       (helsingslista)</label>
     </div>
 
@@ -203,6 +202,10 @@ function update_want_tg() {
       'hidden', !id_want_tg.checked);
 }
 id_want_tg.onchange = update_want_tg;
+
+if (window.top == window.self) {
+  $('h1').hidden = false;
+}
 
 </script>
 {% endblock %}
