@@ -19,14 +19,36 @@ class Command(BaseCommand):
         fn = args[0]
         if not os.path.isfile(fn):
             raise CommandError("File not found ({0})".format(fn))
-
+        try:
+            last_update = (Postnummer.objects.filter(
+                    sist_oppdatert__isnull=False)
+                .latest('sist_oppdatert')
+                .sist_oppdatert)
+        except Postnummer.DoesNotExist:
+            last_update = None
         csv.register_dialect('tabs', delimiter=str('\t'))
         with open(fn) as fp:
             reader = csv.DictReader(fp, dialect='tabs')
             objects = []
             for row in reader:
-                objects.append(create_postnummer_from_dict(row))
-            Postnummer.objects.bulk_create(objects)
+                ps = create_postnummer_from_dict(row)
+                if (last_update and ps.sist_oppdatert
+                    and last_update < ps.sist_oppdatert):
+                    obj, created = Postnummer.objects.update_or_create(
+                        postnr=ps.postnr,
+                        defaults={
+                            k: v
+                            for k, v in ps.__dict__.items()
+                            if not k[0] == '_'})
+                    if created:
+                        print("Created %s." % ps.postnr)
+                    else:
+                        print("Updated %s." % ps.postnr)
+                    objects.append(obj)
+                else:
+                    objects.append(ps)
+            if not last_update:
+                Postnummer.objects.bulk_create(objects)
         print("Imported %d postnummers." % len(objects))
 
 
