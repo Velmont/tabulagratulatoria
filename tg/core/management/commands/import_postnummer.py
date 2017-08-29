@@ -1,5 +1,6 @@
 # encoding=utf-8
 from __future__ import unicode_literals
+from __future__ import print_function
 
 import csv
 import os
@@ -24,6 +25,7 @@ class Command(BaseCommand):
                     sist_oppdatert__isnull=False)
                 .latest('sist_oppdatert')
                 .sist_oppdatert)
+            last_update = parse_datetime('2015-01-01 10:00:00Z')
         except Postnummer.DoesNotExist:
             last_update = None
         csv.register_dialect('tabs', delimiter=str('\t'))
@@ -34,18 +36,21 @@ class Command(BaseCommand):
                 ps = create_postnummer_from_dict(row)
                 if (last_update and ps.sist_oppdatert
                     and last_update < ps.sist_oppdatert):
-                    obj, created = Postnummer.objects.update_or_create(
-                        postnr=ps.postnr,
-                        defaults={
-                            k: v
-                            for k, v in ps.__dict__.items()
-                            if not k[0] == '_'})
-                    if created:
-                        print("Created %s." % ps.postnr)
+                    try:
+                        obj = Postnummer.objects.get(postnr=ps.postnr)
+                    except Postnummer.DoesNotExist:
+                        obj = ps
+                        ps.save()
+                        print("Creating %s." % ps.postnr)
                     else:
-                        print("Updated %s." % ps.postnr)
+                        for k, v in ps.__dict__.items():
+                            if k == 'id' or k[0] == '_':
+                                continue
+                            setattr(obj, k, v)
+                        print("Updating %s %d." % (obj.postnr, obj.id))
+                        obj.save()
                     objects.append(obj)
-                else:
+                elif not last_update:
                     objects.append(ps)
             if not last_update:
                 Postnummer.objects.bulk_create(objects)

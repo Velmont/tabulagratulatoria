@@ -74,7 +74,7 @@ class Entry(models.Model):
 
 
 class Postnummer(models.Model):
-    postnr = models.CharField(max_length=6)
+    postnr = models.CharField(max_length=6, unique=True)
     poststad = models.CharField(max_length=50)
     bruksomrade = models.CharField(max_length=50)
     folketal = models.SmallIntegerField(null=True, blank=True)
