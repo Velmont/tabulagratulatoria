@@ -1,3 +1,4 @@
+from __future__ import print_function
 from __future__ import unicode_literals
 
 import csv
@@ -5,7 +6,9 @@ import os
 import re
 
 from django.core.management.base import BaseCommand, CommandError
+from django.core.exceptions import MultipleObjectsReturned
 
+import core.models
 from core.models import Entry
 from core.models import Postnummer
 
@@ -17,14 +20,42 @@ class Command(BaseCommand):
         fn = args[0]
         if not os.path.isfile(fn):
             raise CommandError("File not found ({0})".format(fn))
+        def showr(row):
+            for k in sorted(row.keys()):
+                if k in ['Added by', 'Subscribed', 'Created at', 'Last Updated']:
+                    continue
+                if (row[k]):
+                    print("    %s: %s" % (k, row[k].decode('utf8')))
 
         with open(fn) as fp:
             reader = csv.DictReader(fp)
             objects = []
+            total_n = 0
             for row in reader:
-                objects.append(create_entry_from_dict(row))
-            Entry.objects.bulk_create(objects)
-        print("Imported %d entries." % len(objects))
+                total_n += 1
+                e = create_entry_from_dict(row)
+                try:
+                    e2 = Entry.objects.get(first_name=e.first_name,
+                      last_name=e.last_name)
+                    print(("Already exists %s %d!" % (e, e2.pk)).encode('utf8'))
+                    showr(row)
+                    continue
+                except Entry.DoesNotExist:
+                    pass
+                except MultipleObjectsReturned:
+                    print("Multiple items for %s!" % e)
+                    continue;
+                if e.email:
+                    try:
+                        e2 = Entry.objects.get(email=e.email)
+                        print("Email Already exists %s %d!" % (e, e2.pk))
+                        showr(row)
+                        continue
+                    except Entry.DoesNotExist:
+                        pass
+                objects.append(e)
+            #Entry.objects.bulk_create(objects)
+        print("Imported %d entries of %d." % (len(objects), total_n))
 
 
 def create_entry_from_dict(data):
@@ -33,6 +64,21 @@ def create_entry_from_dict(data):
         email=data.get('email').decode('utf8'),
         phone=data.get('tlf').decode('utf8'),
     )
+    if data.get('smth'):
+        p.phone += " / %s" % data['smth']
+    if data.get('first_name'):
+        p.first_name = data['first_name'].decode('utf8')
+        p.last_name = data['last_name'].decode('utf8')
+    else:
+        name = data['name'].decode('utf8')
+        if ',' in name:
+            try:
+                p.last_name, p.first_name = name.split(',')
+            except ValueError:
+                print("Couldn't split name %s" % name)
+                p.shown_name = name
+        else:
+            p.shown_name = name
     last_address_line = p.address.split(',')[-1]
     m = re.match('\W(\d{4})\W(.+)$', last_address_line)
     if m:
@@ -47,16 +93,10 @@ def create_entry_from_dict(data):
         except Postnummer.DoesNotExist:
             print("Could not find postnr %s, for address %s" %
                   (m.group(1), p.address))
-    if data['smth']:
-        p.phone += " / %s" % data['smth']
-    name = data['name'].decode('utf8')
-    if ',' in name:
+    if data.get('postnr'):
+        postnr = data['postnr'].zfill(4)
         try:
-            p.last_name, p.first_name = name.split(',')
-        except ValueError:
-            print("Couldn't split name %s" % name)
-            p.shown_name = name
-    else:
-        p.shown_name = name
-
+            p.postnummer = Postnummer.objects.get(postnr=postnr)
+        except Postnummer.DoesNotExist:
+            print("Could not find postnr %s for %s" % (data['postnr'], p))
     return p
