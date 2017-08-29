@@ -20,13 +20,6 @@ class Command(BaseCommand):
         fn = args[0]
         if not os.path.isfile(fn):
             raise CommandError("File not found ({0})".format(fn))
-        def showr(row):
-            for k in sorted(row.keys()):
-                if k in ['Added by', 'Subscribed', 'Created at', 'Last Updated']:
-                    continue
-                if (row[k]):
-                    print("    %s: %s" % (k, row[k].decode('utf8')))
-
         with open(fn) as fp:
             reader = csv.DictReader(fp)
             objects = []
@@ -38,7 +31,6 @@ class Command(BaseCommand):
                     e2 = Entry.objects.get(first_name=e.first_name,
                       last_name=e.last_name)
                     print(("Already exists %s %d!" % (e, e2.pk)).encode('utf8'))
-                    showr(row)
                     continue
                 except Entry.DoesNotExist:
                     pass
@@ -48,13 +40,14 @@ class Command(BaseCommand):
                 if e.email:
                     try:
                         e2 = Entry.objects.get(email=e.email)
-                        print("Email Already exists %s %d!" % (e, e2.pk))
-                        showr(row)
+                        print("Email already exists %s %d!" % (e, e2.pk))
                         continue
                     except Entry.DoesNotExist:
                         pass
+                print("Legg til %s" % e)
+                e.notes = 'imp:samlaget'
                 objects.append(e)
-            #Entry.objects.bulk_create(objects)
+            Entry.objects.bulk_create(objects)
         print("Imported %d entries of %d." % (len(objects), total_n))
 
 
